@@ -1,0 +1,159 @@
+{
+  "name": "Chatbot Sheet",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu berperan sebagai Asisten Informasi Kursus NFA. Tugasmu adalah membantu calon peserta dengan memberikan informasi mengenai jenis program yang tersedia (Bootcamp atau Skill Up), deskripsi pelatihan, serta biaya kursus. Kamu dapat mengambil data kursus melalui tool Google Sheets. Jika pengguna menanyakan harga atau detail kursus tertentu, gunakan tool tersebut untuk mendapatkan informasi yang akurat. Berikan jawaban dengan bahasa yang ramah dan informatif."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        240,
+        48
+      ],
+      "id": "7cfd1433-0e96-4e11-a234-602ea73e3872",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        240,
+        352
+      ],
+      "id": "76353a73-c029-4dfd-8612-6f24bc785dda",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ludrFmeXABCho3VB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        336,
+        240
+      ],
+      "id": "afe6e531-f978-4dc4-af0d-b663ffbe59dd",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo! Saya adalah Asisten Kursus NFA.\nSaya siap membantu menjawab pertanyaan seputar program kursus yang tersedia.\nAnda bisa bertanya seperti: \"Berapa biaya Bootcamp Digital Marketing?\" atau \"Materi apa saja yang dipelajari di kursus Python?\".\n\nSilakan tanyakan apa yang ingin Anda ketahui 😊",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        64,
+        48
+      ],
+      "id": "d5c39083-467c-47c0-8b87-cdd7a5413e55",
+      "name": "When chat message received",
+      "webhookId": "7cd3904c-7a74-4f43-8b38-a0e3a0e2d6f1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1jGupBkkhJcyoq00V4aEtjC9nz4PzT9UHj0GUVw641xA",
+          "mode": "list",
+          "cachedResultName": "n8n 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jGupBkkhJcyoq00V4aEtjC9nz4PzT9UHj0GUVw641xA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jGupBkkhJcyoq00V4aEtjC9nz4PzT9UHj0GUVw641xA/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        384,
+        400
+      ],
+      "id": "4831f33b-62e3-4730-a677-a474f90e1b68",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dhtkl0eqPqh743Ws",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "173e944b-b8a0-4ab6-8c94-eece16d84f6d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f97c4f81fa267fe491610398bc409d8710bbd0d1417d1949d803ca90b2a817ab"
+  },
+  "id": "RKLA6vYKbNxkBETr",
+  "tags": []
+}
