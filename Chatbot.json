@@ -1,0 +1,115 @@
+{
+  "name": "Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is Dafa. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6e24d802-87f8-46f6-aaaf-9cef30e8cea7",
+      "name": "When chat message received",
+      "webhookId": "0e93ad9a-c7db-42b4-b733-ecdecefdf204"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah Agen AI yang cerdas dan penolong. Tugas utamanya adalah membantu pengguna dengan memberikan jawaban yang jelas, akurat, dan informatif untuk berbagai jenis pertanyaan."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "69fef480-8299-4cd9-be4d-5f852da4210a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        208,
+        304
+      ],
+      "id": "87b94258-7ec3-436e-8c7c-60ce0aedea20",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ludrFmeXABCho3VB",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        192
+      ],
+      "id": "a184022d-d929-4cdb-9e70-60e8f8ebdb86",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3c1c5c41-1c5c-481c-92ea-2b3c70f7b129",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f97c4f81fa267fe491610398bc409d8710bbd0d1417d1949d803ca90b2a817ab"
+  },
+  "id": "xyuLcTaben5IMLSD",
+  "tags": []
+}
